@@ -1,0 +1,24 @@
+graph TD
+    subgraph "Fontes de Tráfego"
+        YT[YouTube] --> Users
+        IG[Instagram] --> Users
+        AUD[Auditório] --> Users
+        Users[10000 Participantes]
+        Users --> MOB[Mobile]
+        Users --> DESK[Desktop]
+    end
+
+    subgraph "AWS Cloud"
+        R53[Amazon Route 53] --> CF[Amazon CloudFront]
+        CF --> ELB[Elastic Load Balancer]
+        
+        subgraph "Elastic Beanstalk Environment"
+            ELB --> ASG[Auto Scaling Group]
+            ASG --> EC2[EC2 Instance\nAplicação Web]
+        end
+        
+        EC2 --> DDB[Amazon DynamoDB\nArmazenamento de Emails]
+        
+        CW[Amazon CloudWatch\nMonitoramento] --> ASG
+        CW --> ELB
+    end
